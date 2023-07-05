@@ -94,3 +94,11 @@ button:active {
   grid-column: span 2;
 }
 
+#remainder{
+  background-color: var(--purple);
+}
+
+#period{
+  background-color: var(--lightpurple);
+}
+
