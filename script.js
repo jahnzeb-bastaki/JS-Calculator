@@ -43,6 +43,8 @@ function isNegative(){
   if(operandFlag){
     if(secondOperand.charAt(0) == '-'){
       screenDisplay(secondOperand = secondOperand.slice(1));
+    } else if(!secondOperand){
+      screenDisplay(secondOperand = '-0');
     } else {
       screenDisplay(secondOperand = '-' + secondOperand);
     }
@@ -101,9 +103,13 @@ function operandLoad(event){
       screenDisplay(firstOperand += event.target.value);
     }
   } else if(operandFlag){
-    if(secondOperand == '0')
+    if(secondOperand == '0'){
       return;
-    screenDisplay(secondOperand += event.target.value);
+    } else if(secondOperand == '-0'){
+      screenDisplay(secondOperand = secondOperand.replace('0', event.target.value)); 
+    } else {
+      screenDisplay(secondOperand += event.target.value);
+    }
   }
 
   if(firstOperand.length > 10){
