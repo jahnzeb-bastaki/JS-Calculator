@@ -8,17 +8,36 @@ const screen = document.querySelector('#display');
 const numbers = document.querySelectorAll('.number');
 const functions = document.querySelectorAll('.function');
 const equalButton = document.querySelector('#equals');
-
-// NEED TO WORK on these and the round function
 const positiveNegative = document.querySelector('#negative');
 const clearButton = document.querySelector('#clear');
+
+// NEED TO WORK on these and the round function
 const periodButton = document.querySelector('#period');
 
 numbers.forEach(number => number.onclick = e => operandLoad(e));
 functions.forEach(func => func.onclick = e => operatorLoad(e));
-clearButton.onclick = () => clearCalc();
+clearButton.onclick = () => resetCalc();
 equalButton.onclick = () => operate();
 positiveNegative.onclick = () => isNegative();
+periodButton.onclick = () => addPeriod();
+
+function addPeriod(){
+  if(operandFlag){
+    if(secondOperand.includes('.')){return}
+    if(secondOperand){
+      screenDisplay(secondOperand = secondOperand + '.');
+    } else {
+      screenDisplay(secondOperand = '0.');
+    }
+  } else {
+    if(firstOperand.includes('.')){return}
+    if(firstOperand){
+      screenDisplay(firstOperand = firstOperand + '.');
+    } else {
+      screenDisplay(firstOperand = '0.');
+    }
+  }
+}
 
 function isNegative(){
   if(operandFlag){
@@ -46,7 +65,12 @@ function resetCalc(){
 }
 
 function screenDisplay(value){
-  screen.textContent = value;
+  value = value.toString();
+  if(value > 10){
+    screen.textContent = value.slice(0, 10);
+  } else {
+    screen.textContent = value;
+  }
 }
 
 // Loads the operator from the button that was clicked into the variable
@@ -54,12 +78,12 @@ function operatorLoad(event){
   if(firstOperand && secondOperand) {
     operate();
     operator = event.target.value;
-    console.log('Operands are loaded: ' + operator)
+    //console.log('Operands are loaded: ' + operator)
     return;
   }
   operator = event.target.value;
   operandFlag = 1; // set flag for second operand
-  console.log('Operands are not loaded: ' + operator);
+  //console.log('Operands are not loaded: ' + operator)
 }
 
 function operandLoad(event){
@@ -77,10 +101,18 @@ function operandLoad(event){
       screenDisplay(firstOperand += event.target.value);
     }
   } else if(operandFlag){
+    if(secondOperand == '0')
+      return;
     screenDisplay(secondOperand += event.target.value);
   }
-  console.log(firstOperand);
-  console.log(secondOperand);
+
+  if(firstOperand.length > 10){
+    firstOperand = firstOperand.slice(0, 10);
+  }
+
+  if(secondOperand.length > 10){
+    secondOperand = secondOperand.slice(0,10);
+  }
 }
 
 function operate(){
@@ -111,7 +143,10 @@ function operate(){
     default:
       return;
   }
-  screenDisplay(answer = round(answer));
+  answer = round(8, answer);
+  if(answer > 9999999999)
+    answer = answer.toExponential();
+  screenDisplay(answer);
   firstOperand = answer;
   secondOperand = '';
   operator = '';
@@ -124,8 +159,8 @@ function multiply(a, b){ return a * b; }
 function remainder(a, b){ return a % b; }
 
 // NEED TO WORK ON ROUND
-function round(a){
-  return a;
+function round(places, num){
+  return parseFloat(Math.round(num + 'e' + places) + 'e-' + places);
 }
 
 

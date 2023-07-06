@@ -50,7 +50,7 @@ body{
 
 .calc-screen #display{
   padding: 5px 16px;
-  font-size: 4em;
+  font-size: 6em;
   font-family: calculator;
   font-weight: bold;
 }
