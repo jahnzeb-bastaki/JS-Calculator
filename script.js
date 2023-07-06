@@ -16,9 +16,11 @@ const periodButton = document.querySelector('#period');
 
 numbers.forEach(number => number.onclick = e => operandLoad(e));
 functions.forEach(func => func.onclick = e => operatorLoad(e));
-clearButton.onclick = () => resetCalc();
+clearButton.onclick = () => clearCalc();
 equalButton.onclick = () => operate();
-positiveNegative.onclick = () => {
+positiveNegative.onclick = () => isNegative();
+
+function isNegative(){
   if(operandFlag){
     if(secondOperand.charAt(0) == '-'){
       screenDisplay(secondOperand = secondOperand.slice(1));
@@ -49,13 +51,15 @@ function screenDisplay(value){
 
 // Loads the operator from the button that was clicked into the variable
 function operatorLoad(event){
-  if(!operator){
-    operator = event.target.value;
-    operandFlag = 1; // set flag for second operand
-  } else if(firstOperand && secondOperand) {
+  if(firstOperand && secondOperand) {
     operate();
     operator = event.target.value;
+    console.log('Operands are loaded: ' + operator)
+    return;
   }
+  operator = event.target.value;
+  operandFlag = 1; // set flag for second operand
+  console.log('Operands are not loaded: ' + operator);
 }
 
 function operandLoad(event){
