@@ -102,3 +102,7 @@ button:active {
   background-color: var(--lightpurple);
 }
 
+#equals{
+  background-color: var(--hotpink);
+}
+
