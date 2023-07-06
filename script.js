@@ -13,6 +13,7 @@ const periodButton = document.querySelector('#period');
 const equalButton = document.querySelector('#equals');
 
 numbers.forEach(number => number.onclick = e => operandLoad(e));
+functions.forEach(func => func.onclick = e => operatorLoad(e));
 clearButton.onclick = () => resetCalc();
 
 function resetCalc(){
@@ -24,6 +25,10 @@ function resetCalc(){
 
 function screenDisplay(value){
   screen.textContent = value;
+}
+
+function operatorLoad(e){
+  console.log(e.target.value);
 }
 
 function operandLoad(event){
