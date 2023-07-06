@@ -18,13 +18,29 @@ numbers.forEach(number => number.onclick = e => operandLoad(e));
 functions.forEach(func => func.onclick = e => operatorLoad(e));
 clearButton.onclick = () => resetCalc();
 equalButton.onclick = () => operate();
+positiveNegative.onclick = () => {
+  if(operandFlag){
+    if(secondOperand.charAt(0) == '-'){
+      screenDisplay(secondOperand = secondOperand.slice(1));
+    } else {
+      screenDisplay(secondOperand = '-' + secondOperand);
+    }
+  } else {
+    if(firstOperand.charAt(0) == '-'){
+      screenDisplay(firstOperand = firstOperand.slice(1));
+    } else {
+      screenDisplay(firstOperand = '-' + firstOperand);
+    }
+  }
+}
 
 // WORK ON RESET CALC
 function resetCalc(){
   screenDisplay('0');
-  firstOperand = '';
+  firstOperand = '0';
   secondOperand = '';
   operator = '';
+  operandFlag = 0;
 }
 
 function screenDisplay(value){
@@ -49,10 +65,13 @@ function operandLoad(event){
   // but if the operandFlag is set to 1, that means we need to start
   // appending to the secondOperand
   if(!operandFlag && !operator){
-    if(firstOperand == '0' && !operator)
+    if(firstOperand == '0' && !operator){
       screenDisplay(firstOperand = event.target.value);
-    else
+    } else if (firstOperand == '-0'){
+      screenDisplay(firstOperand = firstOperand.replace('0', event.target.value));
+    } else {
       screenDisplay(firstOperand += event.target.value);
+    }
   } else if(operandFlag){
     screenDisplay(secondOperand += event.target.value);
   }
